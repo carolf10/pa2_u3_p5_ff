@@ -64,9 +64,9 @@ public class Factura {
 	}
 	@Override
 	public String toString() {
-		return "Factura [id=" + id + ", numero=" + numero + ", fecha=" + fecha + ", cedula=" + cedula + "]";
+		return "Factura [id=" + id + ", numero=" + numero + ", fecha=" + fecha + ", cedula=" + cedula
+				+ ", detallesFacturas=" + detallesFacturas + "]";
 	}
-	
 	
 
 }
