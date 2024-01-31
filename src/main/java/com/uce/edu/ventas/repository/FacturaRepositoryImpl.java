@@ -1,13 +1,16 @@
 package com.uce.edu.ventas.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
 import com.uce.edu.ventas.repository.modelo.Factura;
+import com.uce.edu.ventas.repository.modelo.FacturaDTO;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 
@@ -107,6 +110,54 @@ public class FacturaRepositoryImpl implements IFacturaRepository {
 		TypedQuery<Factura> query = this.entityManager.createQuery("SELECT f FROM Factura f JOIN FETCH f.detallesFacturas d",
 				Factura.class);
 		return query.getResultList();
+	}
+
+	@Override
+	public void actualizar(Factura factura) {
+		// TODO Auto-generated method stub
+		this.entityManager.merge(factura);
+	}
+
+	@Override
+	public int actulizarFechas(LocalDateTime fechaNueva, LocalDateTime fechaActual) {
+		// TODO Auto-generated method stub
+		//SQL: UPDATE factura set fact_fecha = :fechaNueva WHERE fact_fecha >= fechaActual
+		//JPQL: UPDATE Facturaf SET f.fecha = :fechaNueva WHERE f.fecha >= :fechaActual
+		Query query=this.entityManager.createQuery("UPDATE Factura f SET f.fecha = :fechaNueva WHERE f.fecha >= :fechaActual");
+		query.setParameter("fechaNueva", fechaNueva);
+		query.setParameter("fechaActual", fechaActual);
+		return query.executeUpdate(); //Cantidad de registros afectados/actualizados
+		
+	}
+
+	@Override
+	public void eliminar(Integer id) {
+		// TODO Auto-generated method stub
+		Factura factura = this.seleccionar(id);
+		this.entityManager.remove(factura);
+	}
+
+	@Override
+	public int eliminarPorNumero(String numero) {
+		// TODO Auto-generated method stub
+		//SQL: DELETE FROM factura WHERE fact_numero = numero
+		//JPQL: DELETE FROM Factura f WHERE f.numero = :numero
+		Query myQuery = this.entityManager.createQuery("DELETE FROM Factura f WHERE f.numero = :numero");
+		myQuery.setParameter("numero", numero);
+		return myQuery.executeUpdate();
+	}
+
+	@Override
+	public Factura seleccionar(Integer id) {
+		// TODO Auto-generated method stub
+		return this.entityManager.find(Factura.class, id);
+	}
+
+	@Override
+	public List<FacturaDTO> seleccionarFacturasDTO() {
+		// TODO Auto-generated method stub
+		TypedQuery<FacturaDTO> myQuery = this.entityManager.createQuery("SELECT NEW com.uce.edu.ventas.repository.modelo.FacturaDTO (f.numero, f.fecha) FROM Factura f", FacturaDTO.class);
+		return myQuery.getResultList();
 	}
 
 }
