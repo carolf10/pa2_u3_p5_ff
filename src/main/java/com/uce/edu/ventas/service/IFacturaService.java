@@ -21,5 +21,5 @@ public interface IFacturaService {
 	public List<Factura> buscarFacturasWhereJoin();
 	public List<Factura> buscarFacturasFetchJoin();
 	public List<FacturaDTO> buscarFacturasDTO();
-	
+	public void prueba();
 }

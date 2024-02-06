@@ -27,19 +27,18 @@ public class Pa2U3P5FfApplication implements CommandLineRunner{
 		System.out.println(TransactionSynchronizationManager.isActualTransactionActive());
 		
 		Factura factura= new Factura();
-		factura.setCedula("123123");
+		factura.setCedula("123124");
 		factura.setFecha(LocalDateTime.now());
-		factura.setNumero("001-002");
+		factura.setNumero("001-003");
 		
 		Cliente cliente = new Cliente();
-		cliente.setNombre("Fatima");
-		cliente.setApellido("Checa");
+		cliente.setNombre("Maria");
+		cliente.setApellido(null);
 		
-		facturaService.guardar(factura, cliente);
+		//this.facturaService.guardar(factura, cliente);
 		
-		
-		
-		
+		System.out.println("Main: " + TransactionSynchronizationManager.isActualTransactionActive());
+		this.facturaService.prueba();
 	}
 
 }
