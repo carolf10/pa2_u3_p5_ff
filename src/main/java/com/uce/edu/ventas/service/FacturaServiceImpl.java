@@ -1,5 +1,6 @@
 package com.uce.edu.ventas.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -33,6 +34,10 @@ public class FacturaServiceImpl implements IFacturaService {
 	@Transactional(value = TxType.REQUIRED)
 	public void guardar(Factura factura, Cliente cliente) {
 		// TODO Auto-generated method stub
+		BigDecimal valor = new BigDecimal(100);
+		valor = valor.multiply(new BigDecimal(0.12));
+		factura.setValorIVA(valor);
+		
 		System.out.println(TransactionSynchronizationManager.isActualTransactionActive()); 
 		this.facturaRepository.insertar(factura);
 		System.out.println("PAso el insert de factura");
@@ -112,6 +117,22 @@ public class FacturaServiceImpl implements IFacturaService {
 		// TODO Auto-generated method stub
 		System.out.println("Este metodo es de prueba");
 		System.out.println("Prueba: " + TransactionSynchronizationManager.isActualTransactionActive());
+	}
+
+	@Override
+	public void pruebaSupports() {
+		// TODO Auto-generated method stub
+		System.out.println("Prueba factura: " + TransactionSynchronizationManager.isActualTransactionActive());
+		this.clienteService.pruebaSupports();
+
+	}
+
+	@Override
+	@Transactional(value = TxType.REQUIRES_NEW)
+	public void pruebaNever() {
+		// TODO Auto-generated method stub
+		System.out.println("Prueba Factura: " + TransactionSynchronizationManager.isActualTransactionActive());
+		this.clienteService.pruebaNEver();
 	}
 
 }
